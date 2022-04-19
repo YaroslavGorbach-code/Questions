@@ -8,6 +8,6 @@ class QuestionsFactory(private val context: Context) {
     fun create(): List<Question> {
         return context.resources.getStringArray(R.array.questions).map { questionText ->
             Question(text = questionText)
-        }
+        }.shuffled()
     }
 }
