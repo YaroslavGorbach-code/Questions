@@ -1,5 +1,6 @@
 package yaroslavgorbach.questions.feature.questions.presentation
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -28,7 +29,7 @@ class QuestionViewModel @Inject constructor(
         questions,
         isMenuExpended
     ) { questions, isMenuExpended ->
-        QuestionsViewState(question = questions.first(), isMenuExpended = isMenuExpended)
+        QuestionsViewState(question = questions.firstOrNull(), isMenuExpended = isMenuExpended)
     }.stateIn(
         scope = viewModelScope,
         started = WhileSubscribed(5000),
@@ -45,6 +46,15 @@ class QuestionViewModel @Inject constructor(
                 when (action) {
                     QuestionsAction.ExpendOrHideMenu -> {
                         isMenuExpended.update { it.not() }
+                    }
+                    QuestionsAction.ChangeQuestion -> {
+                        questions.update {
+                            it.drop(1)
+                        }
+                    }
+                    QuestionsAction.LoadQuestions -> {
+                        Log.i("dssccdscsd", "dsds")
+                        loadQuestions()
                     }
                 }
             }

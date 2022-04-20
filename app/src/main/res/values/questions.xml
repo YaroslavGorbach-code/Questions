@@ -1,6 +1,206 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string-array name="questions">
-        <item>Is it test?</item>
+        <item>What is the most dangerous thing in your home? How can your home be made less dangerous?</item>
+        <item>What is the most dangerous thing in your home for a child? How can it be made less dangerous?</item>
+        <item>What dangers can be found in the kitchen that can cause accidents?</item>
+        <item>What can be done to prevent kitchen accidents?</item>
+        <item>What can a parent do to childproof a kitchen?</item>
+        <item>What dangers can be found in bathrooms that can cause accidents?</item>
+        <item>What can be done to prevent bathroom accidents?</item>
+        <item>What can a parent do to childproof a bathroom?</item>
+        <item>What dangers can be found outside the home in the yard that can cause accidents?</item>
+        <item>What can be done to prevent yard accidents?
+</item>
+        <item>What can a parent do to childproof the yard?
+</item>
+        <item>What other dangers can be found in a home in bedrooms, laundry rooms, garages, and living areas?
+</item>
+        <item>What can be done throughout the house to prevent accidents?
+</item>
+        <item>What can a parent do to childproof the different rooms of the home?
+</item>
+        <item>Where at home would you put your first aid kit?
+</item>
+        <item>What is adoption?
+</item>
+        <item>Do you know anyone who was adopted as a child?
+</item>
+        <item>Do you know anyone who has adopted a child?
+</item>
+        <item>What are some of the reasons people choose to adopt?
+</item>
+        <item>What is the difference between domestic and international adoption?
+</item>
+        <item>What are the views of adoption in your country?
+</item>
+        <item>How would someone interested in adopting a child go about doing so?
+</item>
+        <item>Where do children available for adoption come from?
+</item>
+        <item>What happens to children that are not adopted?
+</item>
+        <item>Would you want to adopt a boy or a girl? Why?
+</item>
+        <item>Do you think brothers and sisters should be separated in adoptions?
+</item>
+        <item>Are adoptions common in your country?
+</item>
+        <item>What are some organizations that help with adoptions?
+</item>
+        <item>Should you tell the child that he or she was adopted? If so at what age? Or when?
+</item>
+        <item>Should adopted children have the right to know their biological parents?
+</item>
+        <item>Should families with birth children also adopt?
+</item>
+        <item>Is the real parent the birth parent or the adoptive parent?
+ </item>
+        <item>Should adoptions be between children and families of the same race and or culture?
+</item>
+        <item>How or should the adoptive parents maintain the adopted child\'s cultural identify?
+</item>
+        <item>In your country are the legal rights of an adoptive child different from that of a birth child?
+</item>
+        <item>What are the legal consequences of adopting a child from a different race or country?
+</item>
+        <item>Why don\'t more people adopt children?
+</item>
+        <item>What makes a family, genetics or environment?
+</item>
+        <item>Do you support an open adoption policy where the birth parents can choose to be involved in the child\'s life?
+</item>
+        <item>Do you believe there is discrimination within the adoption organizations?
+</item>
+        <item>Do you think a person should be able to adopt a child of a different race?
+</item>
+        <item>Should a gay or lesbian couple be allowed to adopt a child?
+</item>
+        <item>Should there be an age restriction for the adoptive parents?
+</item>
+        <item>Should a single man or woman be able to adopt a child?
+</item>
+        <item>When is the right time for a child to be told that he/she was adopted?
+</item>
+        <item>Do you think it is preferable to adopt or to use artificial reproduction technology?
+</item>
+        <item>Would you agree to an open adoption or closed adoption? Why?
+</item>
+        <item>What is an open adoption?
+</item>
+        <item>Would you want to find your birth family? Why or why not?
+</item>
+        <item>Should prospective parents in adoption cases be required to do a parenting course?
+</item>
+        <item>Are there any risks when adopting a child?
+</item>
+        <item>Do you think that adopted children should feel especially loved and wanted?
+</item>
+        <item>Do you it is preferable to adopt or to use artificial reproduction technology?
+</item>
+        <item>If you had a choice, would you want to be adopted?
+</item>
+        <item>How would you feel if you found out you were adopted? What would you do?
+</item>
+        <item>What is the most shocking advertisement you have seen?
+</item>
+        <item>What is the funniest advertisement you have seen? Describe it.
+</item>
+        <item>What makes an ad memorable?
+</item>
+        <item>What are the different types of advertising? (Eg. TV)
+</item>
+        <item>What types of companies choose each type?
+</item>
+        <item>Do you buy products because of advertising?
+</item>
+        <item>Do you find advertising persuasive?
+</item>
+        <item>Why do you buy one product over another?
+</item>
+        <item>Should advertisers be allowed to advertise to children?
+</item>
+        <item>Should alcohol or tobacco companies be allowed to advertise? Why or why not?
+</item>
+        <item>What do you think of celebrity endorsements?
+</item>
+        <item>Which celebrities advertise which products?
+</item>
+        <item>Do favorite or annoying celebrities make you want or not want to buy a product?
+</item>
+        <item>Should there be advertisement-free zones?
+</item>
+        <item>Is there truth in advertising?
+</item>
+        <item>What kind of advertisements attract your attention?
+</item>
+        <item>Why is it necessary to advertise?
+</item>
+        <item>Do you think advertising should be allowed to interrupt TV or radio programs? What are the alternatives?
+</item>
+        <item>What is the best way to advertise to children? Adults? Seniors? etc..
+</item>
+        <item>Do you think advertising is too expensive?
+</item>
+        <item>What are some effective adverts you have seen lately (on TV, newspaper, etc)?
+</item>
+        <item>What are some ineffective adverts you have seen lately?
+</item>
+        <item>Can you remember an advertising campaign that caught your attention?
+</item>
+        <item>What are the different methods of advertising?
+</item>
+        <item>What is the most popular way of advertising?
+</item>
+        <item>Do you think that the Internet and cable/satellite TV have become more important than national TV for advertising products?
+</item>
+        <item>What do you think is the best way of discovering the tastes and interests of teenage consumers?
+</item>
+        <item>Can TV advertising be a force for good?
+</item>
+        <item>How easy do you think it is to influence children with advertising?
+</item>
+        <item>What would make an advertisement more interesting?
+</item>
+        <item>Can you buy something and get something for free in your country?
+</item>
+        <item>Do people use coupons where you live?
+</item>
+        <item>What is the most advertised product in your country?
+</item>
+        <item>What is the best form of advertising?
+</item>
+        <item>What gets you interested in an advertisement?
+</item>
+        <item>What is the funniest commercial that you have seen? Describe it.
+</item>
+        <item>Do you often buy a particular brand when you buy clothes?
+</item>
+        <item>What brand is the ketchup you or your parents buy?
+</item>
+        <item>Is it always the same brand? Why do you prefer this brand?
+</item>
+        <item>What brand is the toothpaste you or your parents buy?
+</item>
+        <item>Do you think there are too many ads in television? Why/why not?
+</item>
+        <item>Do you know why some channels have ads and others not? If you do know explain.
+</item>
+        <item>Do you think there are too many ads in magazines? Why/why not?
+</item>
+        <item>Think of an ad you think is good or funny and tell about it.
+</item>
+        <item>What kinds of ads do you like and why? What makes a good ad?
+</item>
+        <item>Do you think children or young people are easier to influence through ads compared to adults?
+</item>
+        <item>Do you think it\'s OK to show ads aimed at children on television? Why/ why not?
+</item>
+        <item>How would you advertise something you wanted to sell?
+</item>
+        <item>What are the harmful and the beneficial effects of advertising?
+</item>
+        <item>Do you think that ads create a desire for more and more material possessions?
+</item>
     </string-array>
 </resources>

@@ -1,7 +1,9 @@
 package yaroslavgorbach.questions.feature.questions.ui
 
+import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
@@ -20,11 +22,13 @@ import androidx.compose.ui.Alignment.Companion.End
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import yaroslavgorbach.questions.R
+import yaroslavgorbach.questions.data.model.Question
 import yaroslavgorbach.questions.feature.common.ui.theme.QuestionsTheme
 import yaroslavgorbach.questions.feature.questions.model.QuestionsAction
 import yaroslavgorbach.questions.feature.questions.model.QuestionsViewState
@@ -63,17 +67,25 @@ internal fun Questions(
                         .weight(0.6f)
                         .fillMaxSize()
 
-                ){
+                ) {
                     Column {
                         AppBarText()
-                        Question(Modifier.weight(1f))
+                        Question(state.question, actioner)
                     }
 
-                    Box(
-                        modifier = Modifier
-                            .background(if (state.isMenuExpended) Color.Black.copy(alpha = 0.3f) else Color.Transparent)
-                            .fillMaxSize()
-                    )
+                    if (state.isMenuExpended) {
+                        Box(
+                            modifier = Modifier
+                                .background(Color.Black.copy(alpha = 0.5f))
+                                .fillMaxSize()
+                                .clickable(
+                                    interactionSource = MutableInteractionSource(),
+                                    indication = null
+                                ) {
+                                    actioner(QuestionsAction.ExpendOrHideMenu)
+                                }
+                        )
+                    }
                 }
 
                 NewQuestionButton(
@@ -86,7 +98,9 @@ internal fun Questions(
     }
 
 @Composable
-private fun Question(modifier: Modifier) {
+private fun Question(question: Question?, actioner: (QuestionsAction) -> Unit) {
+    Log.i("dssccdscsd", question.toString())
+
     Box(
         modifier = Modifier
             .padding(start = 16.dp, end = 16.dp, top = 32.dp)
@@ -96,7 +110,22 @@ private fun Question(modifier: Modifier) {
             )
             .fillMaxSize()
     ) {
+        if (question == null){
+            Log.i("dssccdscsd", "dsds")
+            actioner(QuestionsAction.LoadQuestions)
+        }
 
+        question?.let { question ->
+            Text(
+                text = question.text,
+                style = MaterialTheme.typography.caption,
+                modifier = Modifier
+                    .align(Center)
+                    .padding(16.dp),
+                fontSize = 28.sp,
+                textAlign = TextAlign.Center
+            )
+        }
     }
 }
 
@@ -129,20 +158,18 @@ private fun NewQuestionButton(
     state: QuestionsViewState,
     actioner: (QuestionsAction) -> Unit
 ) {
-    Box(
-        modifier = modifier
-            .fillMaxWidth()
-            .fillMaxHeight()
-    ) {
+    Box(modifier = modifier.fillMaxSize()) {
         Box(
             modifier = Modifier
                 .align(Center)
                 .size(150.dp)
+                .clickable {
+                    actioner(QuestionsAction.ChangeQuestion)
+                }
                 .background(
                     color = MaterialTheme.colors.onSurface,
                     shape = RoundedCornerShape(30.dp)
                 )
-
         ) {
             Icon(
                 modifier = Modifier
@@ -156,11 +183,28 @@ private fun NewQuestionButton(
 
         Spacer(modifier = Modifier.size(100.dp))
 
-        Box(
-            modifier = Modifier
-                .background(if (state.isMenuExpended) Color.Black.copy(alpha = 0.3f) else Color.Transparent)
-                .fillMaxSize()
-        ) {
+        if (state.isMenuExpended) {
+
+            Box(
+                modifier = Modifier
+                    .background(if (state.isMenuExpended) Color.Black.copy(alpha = 0.5f) else Color.Transparent)
+                    .fillMaxSize()
+                    .clickable(
+                        interactionSource = MutableInteractionSource(),
+                        indication = null
+                    ) {
+                        if (state.isMenuExpended) actioner(QuestionsAction.ExpendOrHideMenu)
+                    }
+            ) {
+                Menu(
+                    Modifier
+                        .align(BottomEnd)
+                        .padding(end = 16.dp),
+                    state.isMenuExpended,
+                    actioner
+                )
+            }
+        } else {
             Menu(
                 Modifier
                     .align(BottomEnd)
@@ -169,7 +213,6 @@ private fun NewQuestionButton(
                 actioner
             )
         }
-
     }
 }
 
