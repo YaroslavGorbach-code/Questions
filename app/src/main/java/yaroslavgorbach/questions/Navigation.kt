@@ -1,7 +1,5 @@
 package yaroslavgorbach.questions
 
-import androidx.compose.foundation.ExperimentalFoundationApi
-import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavController
@@ -10,8 +8,8 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.navigation
-import kotlinx.coroutines.InternalCoroutinesApi
 import yaroslavgorbach.questions.feature.questions.ui.Questions
+import yaroslavgorbach.questions.feature.recordings.ui.Recordings
 
 sealed class Screen(val route: String) {
     object Questions : Screen("Questions")
@@ -58,7 +56,9 @@ private fun NavGraphBuilder.addQuestions(
     root: Screen,
 ) {
     composable(LeafScreen.Questions.createRoute(root)) {
-        Questions()
+        Questions(navigateToRecords = {
+            navController.navigate(LeafScreen.Recordings.createRoute(root))
+        })
     }
 }
 
@@ -69,6 +69,7 @@ private fun NavGraphBuilder.addRecordings(
     composable(
         LeafScreen.Recordings.createRoute(root)
     ) {
+        Recordings()
     }
 
 }

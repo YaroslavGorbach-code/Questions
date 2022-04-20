@@ -1,6 +1,5 @@
 package yaroslavgorbach.questions.feature.questions.ui
 
-import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
@@ -28,33 +27,36 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import yaroslavgorbach.questions.R
-import yaroslavgorbach.questions.data.model.Question
+import yaroslavgorbach.questions.data.questions.model.Question
 import yaroslavgorbach.questions.feature.common.ui.theme.QuestionsTheme
 import yaroslavgorbach.questions.feature.questions.model.QuestionsAction
 import yaroslavgorbach.questions.feature.questions.model.QuestionsViewState
 import yaroslavgorbach.questions.feature.questions.presentation.QuestionViewModel
 
 @Composable
-fun Questions() {
-    Questions(viewModel = hiltViewModel())
+fun Questions(navigateToRecords: () -> Unit) {
+    Questions(viewModel = hiltViewModel(), navigateToRecords = navigateToRecords)
 }
 
 @Composable
 internal fun Questions(
     viewModel: QuestionViewModel,
+    navigateToRecords: () -> Unit
 ) {
     val viewState = viewModel.state.collectAsState()
 
     Questions(
         state = viewState.value,
         actioner = viewModel::submitAction,
+        navigateToRecords = navigateToRecords
     )
 }
 
 @Composable
 internal fun Questions(
     state: QuestionsViewState,
-    actioner: (QuestionsAction) -> Unit
+    actioner: (QuestionsAction) -> Unit,
+    navigateToRecords: () -> Unit
 ) {
         Scaffold(modifier = Modifier.fillMaxSize()) {
             Column(
@@ -91,7 +93,8 @@ internal fun Questions(
                 NewQuestionButton(
                     modifier = Modifier.weight(0.4f),
                     state = state,
-                    actioner = actioner
+                    actioner = actioner,
+                    navigateToRecords = navigateToRecords
                 )
             }
         }
@@ -99,8 +102,6 @@ internal fun Questions(
 
 @Composable
 private fun Question(question: Question?, actioner: (QuestionsAction) -> Unit) {
-    Log.i("dssccdscsd", question.toString())
-
     Box(
         modifier = Modifier
             .padding(start = 16.dp, end = 16.dp, top = 32.dp)
@@ -111,7 +112,6 @@ private fun Question(question: Question?, actioner: (QuestionsAction) -> Unit) {
             .fillMaxSize()
     ) {
         if (question == null){
-            Log.i("dssccdscsd", "dsds")
             actioner(QuestionsAction.LoadQuestions)
         }
 
@@ -156,7 +156,8 @@ private fun AppBarText() {
 private fun NewQuestionButton(
     modifier: Modifier,
     state: QuestionsViewState,
-    actioner: (QuestionsAction) -> Unit
+    actioner: (QuestionsAction) -> Unit,
+    navigateToRecords: () -> Unit
 ) {
     Box(modifier = modifier.fillMaxSize()) {
         Box(
@@ -184,7 +185,6 @@ private fun NewQuestionButton(
         Spacer(modifier = Modifier.size(100.dp))
 
         if (state.isMenuExpended) {
-
             Box(
                 modifier = Modifier
                     .background(if (state.isMenuExpended) Color.Black.copy(alpha = 0.5f) else Color.Transparent)
@@ -201,7 +201,8 @@ private fun NewQuestionButton(
                         .align(BottomEnd)
                         .padding(end = 16.dp),
                     state.isMenuExpended,
-                    actioner
+                    actioner,
+                    navigateToRecords
                 )
             }
         } else {
@@ -210,14 +211,20 @@ private fun NewQuestionButton(
                     .align(BottomEnd)
                     .padding(end = 16.dp),
                 state.isMenuExpended,
-                actioner
+                actioner,
+                navigateToRecords
             )
         }
     }
 }
 
 @Composable
-private fun Menu(modifier: Modifier, isExpended: Boolean, actioner: (QuestionsAction) -> Unit) {
+private fun Menu(
+    modifier: Modifier,
+    isExpended: Boolean,
+    actioner: (QuestionsAction) -> Unit,
+    navigateToRecords: () -> Unit
+) {
     Column(modifier) {
         if (isExpended) {
             Row(Modifier.padding(end = 16.dp)) {
@@ -260,7 +267,10 @@ private fun Menu(modifier: Modifier, isExpended: Boolean, actioner: (QuestionsAc
 
             Spacer(modifier = Modifier.size(8.dp))
 
-            Row {
+            Row(modifier = Modifier.clickable {
+                actioner(QuestionsAction.ExpendOrHideMenu)
+                navigateToRecords()
+            }) {
                 Box(
                     modifier = Modifier
                         .height(30.dp)
@@ -321,20 +331,14 @@ private fun Menu(modifier: Modifier, isExpended: Boolean, actioner: (QuestionsAc
     }
 }
 
-@Composable
-private fun backgroundColor(isMenuExpended: Boolean): Color {
-    return if (isMenuExpended) {
-        Color.Black.copy(alpha = 0.3f)
-    } else {
-        MaterialTheme.colors.background
-    }
-}
-
 @ExperimentalMaterialApi
 @Preview(showBackground = true, showSystemUi = true)
 @Composable
 fun ExercisesPreview() {
     QuestionsTheme {
-        Questions()
+        Questions {
+
+
+        }
     }
 }

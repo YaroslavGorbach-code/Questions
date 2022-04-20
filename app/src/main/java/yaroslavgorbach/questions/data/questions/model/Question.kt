@@ -1,4 +1,4 @@
-package yaroslavgorbach.questions.data.model
+package yaroslavgorbach.questions.data.questions.model
 
 data class Question(val text: String){
 

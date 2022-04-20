@@ -1,6 +1,6 @@
 package yaroslavgorbach.questions.feature.questions.model
 
-import yaroslavgorbach.questions.data.model.Question
+import yaroslavgorbach.questions.data.questions.model.Question
 
 data class QuestionsViewState(
     val isMenuExpended: Boolean,

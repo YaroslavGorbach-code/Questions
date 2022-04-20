@@ -1,8 +1,8 @@
-package yaroslavgorbach.questions.data.factory
+package yaroslavgorbach.questions.data.questions.factory
 
 import android.content.Context
 import yaroslavgorbach.questions.R
-import yaroslavgorbach.questions.data.model.Question
+import yaroslavgorbach.questions.data.questions.model.Question
 
 class QuestionsFactory(private val context: Context) {
     fun create(): List<Question> {

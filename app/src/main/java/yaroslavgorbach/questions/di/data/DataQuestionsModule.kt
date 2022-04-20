@@ -5,9 +5,11 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
-import yaroslavgorbach.questions.data.RepoQuestionsImp
-import yaroslavgorbach.questions.data.factory.QuestionsFactory
+import yaroslavgorbach.questions.data.questions.RepoQuestionsImp
+import yaroslavgorbach.questions.data.questions.factory.QuestionsFactory
 import yaroslavgorbach.questions.data.questions.RepoQuestions
+import yaroslavgorbach.questions.data.recordings.RepoRecords
+import yaroslavgorbach.questions.data.recordings.RepoRecordsImp
 import javax.inject.Singleton
 
 @Module
@@ -23,5 +25,11 @@ object DataQuestionsModule {
     @Provides
     fun provideQuestionsRepo(questions: QuestionsFactory): RepoQuestions {
         return RepoQuestionsImp(questions)
+    }
+
+    @Singleton
+    @Provides
+    fun provideRecordsRepo(app: Application): RepoRecords {
+        return RepoRecordsImp(app)
     }
 }

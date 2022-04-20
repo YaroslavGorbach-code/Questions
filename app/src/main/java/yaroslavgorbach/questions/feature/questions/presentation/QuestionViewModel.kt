@@ -9,7 +9,7 @@ import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.flow.SharingStarted.Companion.WhileSubscribed
 import kotlinx.coroutines.launch
 import yaroslavgorbach.questions.bussines.questions.GetQuestionsInterractor
-import yaroslavgorbach.questions.data.model.Question
+import yaroslavgorbach.questions.data.questions.model.Question
 import yaroslavgorbach.questions.feature.questions.model.QuestionsAction
 import yaroslavgorbach.questions.feature.questions.model.QuestionsViewState
 import javax.inject.Inject
@@ -53,7 +53,6 @@ class QuestionViewModel @Inject constructor(
                         }
                     }
                     QuestionsAction.LoadQuestions -> {
-                        Log.i("dssccdscsd", "dsds")
                         loadQuestions()
                     }
                 }
