@@ -69,7 +69,9 @@ private fun NavGraphBuilder.addRecordings(
     composable(
         LeafScreen.Recordings.createRoute(root)
     ) {
-        Recordings()
+        Recordings {
+            navController.popBackStack()
+        }
     }
 
 }

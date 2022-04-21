@@ -2,10 +2,7 @@ package yaroslavgorbach.questions.feature.recordings.ui
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
-import androidx.compose.material.ExperimentalMaterialApi
-import androidx.compose.material.Icon
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Text
+import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment.Companion.CenterVertically
 import androidx.compose.ui.Modifier
@@ -66,6 +63,15 @@ fun Record(recordUi: RecordUi) {
             )
         }
 
+        Slider(
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(32.dp)
+                .padding(8.dp),
+            value = recordUi.progress / 100f,
+            onValueChange = {
+
+            })
 
         Spacer(
             modifier = Modifier

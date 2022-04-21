@@ -1,5 +1,11 @@
 package yaroslavgorbach.questions.feature.questions.ui
 
+import android.Manifest
+import android.content.Intent
+import android.net.Uri
+import android.provider.Settings
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
@@ -12,6 +18,7 @@ import androidx.compose.material.icons.filled.List
 import androidx.compose.material.icons.filled.Mic
 import androidx.compose.material.icons.filled.SettingsVoice
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment.Companion.BottomEnd
 import androidx.compose.ui.Alignment.Companion.Center
@@ -20,6 +27,7 @@ import androidx.compose.ui.Alignment.Companion.CenterVertically
 import androidx.compose.ui.Alignment.Companion.End
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
@@ -30,6 +38,7 @@ import yaroslavgorbach.questions.R
 import yaroslavgorbach.questions.data.questions.model.Question
 import yaroslavgorbach.questions.feature.common.ui.theme.QuestionsTheme
 import yaroslavgorbach.questions.feature.questions.model.QuestionsAction
+import yaroslavgorbach.questions.feature.questions.model.QuestionsUiMessage
 import yaroslavgorbach.questions.feature.questions.model.QuestionsViewState
 import yaroslavgorbach.questions.feature.questions.presentation.QuestionViewModel
 
@@ -41,14 +50,15 @@ fun Questions(navigateToRecords: () -> Unit) {
 @Composable
 internal fun Questions(
     viewModel: QuestionViewModel,
-    navigateToRecords: () -> Unit
+    navigateToRecords: () -> Unit,
 ) {
     val viewState = viewModel.state.collectAsState()
 
     Questions(
         state = viewState.value,
         actioner = viewModel::submitAction,
-        navigateToRecords = navigateToRecords
+        navigateToRecords = navigateToRecords,
+        clearMessage = viewModel::clearMessage
     )
 }
 
@@ -56,38 +66,116 @@ internal fun Questions(
 internal fun Questions(
     state: QuestionsViewState,
     actioner: (QuestionsAction) -> Unit,
-    navigateToRecords: () -> Unit
+    navigateToRecords: () -> Unit,
+    clearMessage: (Long) -> Unit
 ) {
-        Scaffold(modifier = Modifier.fillMaxSize()) {
-            Column(
-                modifier = Modifier
-                    .fillMaxSize()
-            ) {
+    state.message?.let { message ->
+        val context = LocalContext.current
+        when (message.message) {
+            QuestionsUiMessage.RequestAudioPermission -> {
+                val launcher = rememberLauncherForActivityResult(
+                    contract = ActivityResultContracts.RequestPermission(),
+                    onResult = { isGranted ->
+                        clearMessage(message.id)
+                        if (isGranted) {
+                            actioner(QuestionsAction.StartRecording)
+                        } else {
+                            actioner(QuestionsAction.ShowPermissionWarningDialog)
+                        }
+                    })
 
-                Box(
-                    modifier = Modifier
-                        .weight(0.6f)
-                        .fillMaxSize()
-
+                LaunchedEffect(key1 = message.id, block = {
+                    launcher.launch(Manifest.permission.RECORD_AUDIO)
+                })
+            }
+            QuestionsUiMessage.GoToPermissionSettings -> {
+                val launcher = rememberLauncherForActivityResult(
+                    ActivityResultContracts.StartActivityForResult()
                 ) {
-                    Column {
-                        AppBarText()
-                        Question(state.question, actioner)
+                    clearMessage(message.id)
+                }
+
+                LaunchedEffect(key1 = message.id, block = {
+                    launcher.launch(Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS).apply {
+                        data = Uri.fromParts("package", context.packageName, null)
+                    })
+                })
+            }
+        }
+    }
+
+    if (state.isPermissionWarningDialogVisible) {
+        AlertDialog(
+            onDismissRequest = {
+                actioner(QuestionsAction.HidePermissionWarningDialog)
+            },
+            title = { Text(stringResource(id = R.string.permission_denied_error_title), fontSize = 18.sp) },
+            text = { Text(stringResource(id = R.string.audio_permission_denied_message), fontSize = 14.sp) },
+            buttons = {
+                Column(
+                    modifier = Modifier.padding(all = 8.dp),
+                    verticalArrangement = Arrangement.Center
+                ) {
+                    Button(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .height(50.dp)
+                            .padding(4.dp),
+                        onClick = {
+                            actioner(QuestionsAction.HidePermissionWarningDialog)
+                        }
+                    ) {
+                        Text(stringResource(id = R.string.cancel))
                     }
 
-                    if (state.isMenuExpended) {
-                        Box(
-                            modifier = Modifier
-                                .background(Color.Black.copy(alpha = 0.5f))
-                                .fillMaxSize()
-                                .clickable(
-                                    interactionSource = MutableInteractionSource(),
-                                    indication = null
-                                ) {
-                                    actioner(QuestionsAction.ExpendOrHideMenu)
-                                }
-                        )
+                    Button(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .height(50.dp)
+                            .padding(4.dp),
+                        onClick = {
+                            actioner(QuestionsAction.GoToPermissionSettings)
+                            actioner(QuestionsAction.HidePermissionWarningDialog)
+                        }
+                    ) {
+                        Text(stringResource(id = R.string.grant_permission))
                     }
+                }
+            }
+        )
+    }
+
+
+    Scaffold(modifier = Modifier.fillMaxSize()) {
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+        ) {
+
+            Box(
+                modifier = Modifier
+                    .weight(0.6f)
+                    .fillMaxSize()
+
+            ) {
+                Column {
+                    AppBarText()
+                    Question(state.question, actioner)
+                }
+
+                if (state.isMenuExpended) {
+                    Box(
+                        modifier = Modifier
+                            .background(Color.Black.copy(alpha = 0.5f))
+                            .fillMaxSize()
+                            .clickable(
+                                interactionSource = MutableInteractionSource(),
+                                indication = null
+                            ) {
+                                actioner(QuestionsAction.ExpendOrHideMenu)
+                            }
+                    )
+                }
                 }
 
                 NewQuestionButton(
@@ -200,7 +288,7 @@ private fun NewQuestionButton(
                     Modifier
                         .align(BottomEnd)
                         .padding(end = 16.dp),
-                    state.isMenuExpended,
+                    state,
                     actioner,
                     navigateToRecords
                 )
@@ -210,7 +298,7 @@ private fun NewQuestionButton(
                 Modifier
                     .align(BottomEnd)
                     .padding(end = 16.dp),
-                state.isMenuExpended,
+                state,
                 actioner,
                 navigateToRecords
             )
@@ -221,13 +309,25 @@ private fun NewQuestionButton(
 @Composable
 private fun Menu(
     modifier: Modifier,
-    isExpended: Boolean,
+    state: QuestionsViewState,
     actioner: (QuestionsAction) -> Unit,
     navigateToRecords: () -> Unit
 ) {
     Column(modifier) {
-        if (isExpended) {
-            Row(Modifier.padding(end = 16.dp)) {
+        if (state.isMenuExpended) {
+
+            Row(
+                Modifier
+                    .padding(end = 16.dp)
+                    .clickable {
+                        actioner(QuestionsAction.ExpendOrHideMenu)
+
+                        if (state.isRecordPermissionGranted) {
+                            actioner(QuestionsAction.StartRecording)
+                        } else {
+                            actioner(QuestionsAction.RequestAudioPermission)
+                        }
+                    }) {
                 Box(
                     modifier = Modifier
                         .height(30.dp)
@@ -314,19 +414,36 @@ private fun Menu(
             modifier = Modifier
                 .size(75.dp)
                 .align(End)
-                .clickable { actioner(QuestionsAction.ExpendOrHideMenu) }
+                .clickable {
+                    if (state.isRecording) {
+                        actioner(QuestionsAction.StopRecording)
+                    } else {
+                        actioner(QuestionsAction.ExpendOrHideMenu)
+                    }
+                }
                 .background(
                     color = MaterialTheme.colors.onSurface,
                     shape = RoundedCornerShape(100.dp)
                 )
         ) {
-            Icon(
-                Icons.Default.SettingsVoice,
-                modifier = Modifier
-                    .size(30.dp)
-                    .align(Center),
-                contentDescription = null
-            )
+            if (state.isRecording) {
+                Icon(
+                    Icons.Default.Mic,
+                    modifier = Modifier
+                        .size(30.dp)
+                        .align(Center),
+                    contentDescription = null,
+                    tint = Color.Red
+                )
+            } else {
+                Icon(
+                    Icons.Default.SettingsVoice,
+                    modifier = Modifier
+                        .size(30.dp)
+                        .align(Center),
+                    contentDescription = null
+                )
+            }
         }
     }
 }
