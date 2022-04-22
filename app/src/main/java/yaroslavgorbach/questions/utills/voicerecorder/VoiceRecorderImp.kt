@@ -61,9 +61,9 @@ class VoiceRecorderImp(private val context: Context) : VoiceRecorder {
     }
 
     private fun createAudioFileName(fileName: String): String {
-        val format = SimpleDateFormat("yyyy_MM_dd_hh_mm_ss", Locale.getDefault())
+        val format = SimpleDateFormat("yyyy.MM.dd_hh:mm", Locale.getDefault())
 
-        return (fileName + "_" + format.format(Date().time).toString() + ".3gp")
-            .replace(" ", "_")
+        return (format.format(Date().time).toString() + ".3gp")
+            .replace(" ", "")
     }
 }

@@ -86,6 +86,7 @@ class QuestionViewModel @Inject constructor(
                     QuestionsAction.StopRecording -> {
                         voiceRecorder.stop()
                         isRecording.emit(false)
+                        uiMessageManager.emitMessage(UiMessage(QuestionsUiMessage.StopRecording))
                     }
                     QuestionsAction.RequestAudioPermission -> {
                         uiMessageManager.emitMessage(UiMessage(QuestionsUiMessage.RequestAudioPermission))

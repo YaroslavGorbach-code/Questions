@@ -4,6 +4,8 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Alignment.Companion.CenterHorizontally
 import androidx.compose.ui.Alignment.Companion.CenterVertically
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
@@ -20,7 +22,7 @@ fun Record(recordUi: RecordUi) {
         modifier = Modifier
             .fillMaxWidth()
             .height(110.dp)
-            .padding(8.dp)
+            .padding(horizontal = 8.dp)
     ) {
 
         Spacer(
@@ -33,6 +35,7 @@ fun Record(recordUi: RecordUi) {
         Row(
             Modifier
                 .fillMaxSize()
+                .align(CenterHorizontally)
                 .weight(1f)
                 .padding(8.dp)
         ) {
@@ -46,7 +49,7 @@ fun Record(recordUi: RecordUi) {
             )
 
             Text(
-                text = "recordUi.name",
+                text = recordUi.name,
                 modifier = Modifier
                     .align(CenterVertically)
                     .padding(start = 16.dp),
