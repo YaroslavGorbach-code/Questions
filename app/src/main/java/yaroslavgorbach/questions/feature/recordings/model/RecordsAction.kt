@@ -1,9 +1,7 @@
 package yaroslavgorbach.questions.feature.recordings.model
 
-import java.io.File
-
 sealed class RecordsAction {
-    class PlayRecord(file: File) : RecordsAction()
-    class DeleteRecord(file: File) : RecordsAction()
+    class RecordCLick(val record: RecordUi) : RecordsAction()
+    class DeleteRecord(file: RecordUi) : RecordsAction()
     object DeleteAllRecords : RecordsAction()
 }

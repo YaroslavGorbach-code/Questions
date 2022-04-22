@@ -1,10 +1,10 @@
 package yaroslavgorbach.questions.feature.recordings.ui
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Alignment.Companion.CenterHorizontally
 import androidx.compose.ui.Alignment.Companion.CenterVertically
 import androidx.compose.ui.Modifier
@@ -13,16 +13,25 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import yaroslavgorbach.questions.feature.recordings.model.RecordUi
+import yaroslavgorbach.questions.feature.recordings.model.RecordsAction
 import java.io.File
 
 @Composable
-fun Record(recordUi: RecordUi) {
+fun Record(
+    recordUi: RecordUi,
+    playerProgress: Float,
+    playerMaxProgress: Float,
+    actioner: (RecordsAction) -> Unit
+) {
 
     Column(
         modifier = Modifier
             .fillMaxWidth()
             .height(110.dp)
             .padding(horizontal = 8.dp)
+            .clickable {
+                actioner(RecordsAction.RecordCLick(recordUi))
+            }
     ) {
 
         Spacer(
@@ -66,15 +75,18 @@ fun Record(recordUi: RecordUi) {
             )
         }
 
-        Slider(
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(32.dp)
-                .padding(8.dp),
-            value = recordUi.progress / 100f,
-            onValueChange = {
+        if (recordUi.recordState == RecordUi.RecordState.Playing || recordUi.recordState == RecordUi.RecordState.Pause) {
+            Slider(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(32.dp)
+                    .padding(8.dp),
+                value = playerProgress,
+                valueRange = 0f..playerMaxProgress,
+                onValueChange = {
 
-            })
+                })
+        }
 
         Spacer(
             modifier = Modifier
@@ -90,6 +102,5 @@ fun Record(recordUi: RecordUi) {
 @Preview(showBackground = true)
 @Composable
 fun RecordPreview() {
-    Record(RecordUi(File("")))
-
+    Record(RecordUi(File("")), 0f, 0f) {}
 }

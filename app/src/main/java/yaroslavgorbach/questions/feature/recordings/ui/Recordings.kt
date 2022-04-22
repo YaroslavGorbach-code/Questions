@@ -74,7 +74,12 @@ internal fun Recordings(
 
         LazyColumn {
             items(state.records) { record ->
-                Record(recordUi = record)
+                Record(
+                    recordUi = record,
+                    playerProgress = state.currentPlayingProgress / 100f,
+                    playerMaxProgress = state.maxPlayingProgress / 100f,
+                    actioner
+                )
             }
         }
     }
