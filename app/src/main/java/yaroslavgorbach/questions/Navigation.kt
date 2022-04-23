@@ -1,5 +1,6 @@
 package yaroslavgorbach.questions
 
+import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavController
@@ -24,6 +25,7 @@ private sealed class LeafScreen(
     object Recordings : LeafScreen("Recordings")
 }
 
+@ExperimentalMaterialApi
 @Composable
 internal fun AppNavigation(
     navController: NavHostController,
@@ -38,6 +40,7 @@ internal fun AppNavigation(
     }
 }
 
+@ExperimentalMaterialApi
 private fun NavGraphBuilder.addQuestionsTopLevel(
     navController: NavController,
 ) {
@@ -62,6 +65,7 @@ private fun NavGraphBuilder.addQuestions(
     }
 }
 
+@ExperimentalMaterialApi
 private fun NavGraphBuilder.addRecordings(
     navController: NavController,
     root: Screen,

@@ -1,5 +1,6 @@
 package yaroslavgorbach.questions.feature.recordings.ui
 
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -27,11 +28,15 @@ import yaroslavgorbach.questions.feature.recordings.model.RecordsAction
 import yaroslavgorbach.questions.feature.recordings.model.RecordsViewState
 import yaroslavgorbach.questions.feature.recordings.presentation.RecordingsViewModel
 
+@ExperimentalFoundationApi
+@ExperimentalMaterialApi
 @Composable
 fun Recordings(onBack: () -> Unit) {
     Recordings(viewModel = hiltViewModel(), onBack = onBack)
 }
 
+@ExperimentalFoundationApi
+@ExperimentalMaterialApi
 @Composable
 internal fun Recordings(
     viewModel: RecordingsViewModel,
@@ -46,6 +51,8 @@ internal fun Recordings(
     )
 }
 
+@ExperimentalFoundationApi
+@ExperimentalMaterialApi
 @Composable
 internal fun Recordings(
     state: RecordsViewState,
@@ -73,18 +80,20 @@ internal fun Recordings(
         }
 
         LazyColumn {
-            items(state.records) { record ->
+            items(state.records, key = { it.name }) { record ->
                 Record(
+                    modifier = Modifier.animateItemPlacement(),
                     recordUi = record,
                     playerProgress = state.currentPlayingProgress / 100f,
                     playerMaxProgress = state.maxPlayingProgress / 100f,
-                    actioner
+                    actioner = actioner
                 )
             }
         }
     }
 }
 
+@ExperimentalFoundationApi
 @ExperimentalMaterialApi
 @Preview(showBackground = true, showSystemUi = true)
 @Composable

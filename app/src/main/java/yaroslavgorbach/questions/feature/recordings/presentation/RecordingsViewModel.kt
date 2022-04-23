@@ -7,6 +7,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.flow.SharingStarted.Companion.WhileSubscribed
 import kotlinx.coroutines.launch
+import yaroslavgorbach.questions.bussines.recordings.DeleteRecordFileInteractor
 import yaroslavgorbach.questions.bussines.recordings.GetRecordFilesInteractor
 import yaroslavgorbach.questions.feature.recordings.model.RecordUi
 import yaroslavgorbach.questions.feature.recordings.model.RecordsAction
@@ -18,6 +19,7 @@ import javax.inject.Inject
 @HiltViewModel
 class RecordingsViewModel @Inject constructor(
     private val getRecordFilesInteractor: GetRecordFilesInteractor,
+    private val deleteRecordFileInteractor: DeleteRecordFileInteractor,
     private val recordPlayer: RecordPlayer
 ) : ViewModel() {
 
@@ -54,13 +56,15 @@ class RecordingsViewModel @Inject constructor(
                     }
 
                     is RecordsAction.DeleteRecord -> {
-
+                        deleteRecordFileInteractor.invoke(action.record.file)
+                        records.update { records ->
+                            records.toMutableList().apply {
+                                remove(action.record)
+                            }
+                        }
                     }
 
                     is RecordsAction.RecordCLick -> {
-                        Log.i("dsxzfdsc", action.record.toString())
-
-
                         records.update {
                             it.map { record ->
                                 if (record == action.record) {
