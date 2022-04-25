@@ -11,14 +11,14 @@ private val DarkColorPalette = darkColors(
     primary = Red200,
     primaryVariant = Red700,
     secondary = Pink200,
-    onSurface = LightDark
+    onPrimary = LightDark
 )
 
 private val LightColorPalette = lightColors(
     primary = Red400,
     primaryVariant = Red700,
     secondary = Pink200,
-    onSurface = LightGray
+    onPrimary = LightGray
     /* Other default colors to override
     background = Color.White,
     surface = Color.White,

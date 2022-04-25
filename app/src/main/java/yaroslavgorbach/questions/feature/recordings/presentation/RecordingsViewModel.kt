@@ -1,6 +1,5 @@
 package yaroslavgorbach.questions.feature.recordings.presentation
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -11,7 +10,10 @@ import yaroslavgorbach.questions.bussines.recordings.DeleteRecordFileInteractor
 import yaroslavgorbach.questions.bussines.recordings.GetRecordFilesInteractor
 import yaroslavgorbach.questions.feature.recordings.model.RecordUi
 import yaroslavgorbach.questions.feature.recordings.model.RecordsAction
+import yaroslavgorbach.questions.feature.recordings.model.RecordsUiMessages
 import yaroslavgorbach.questions.feature.recordings.model.RecordsViewState
+import yaroslavgorbach.questions.utills.UiMessage
+import yaroslavgorbach.questions.utills.UiMessageManager
 import yaroslavgorbach.questions.utills.player.RecordPlayer
 import java.io.File
 import javax.inject.Inject
@@ -27,12 +29,15 @@ class RecordingsViewModel @Inject constructor(
 
     private val records: MutableStateFlow<List<RecordUi>> = MutableStateFlow(emptyList())
 
+    private val uiMessageManager: UiMessageManager<RecordsUiMessages> = UiMessageManager()
+
     val state: StateFlow<RecordsViewState> = combine(
         records,
         recordPlayer.progress,
         recordPlayer.duration,
-    ) { records, progress, maxProgress ->
-        RecordsViewState(records, progress, maxProgress)
+        uiMessageManager.message
+    ) { records, progress, maxProgress, message ->
+        RecordsViewState(records, progress, maxProgress, message)
     }.stateIn(
         scope = viewModelScope,
         started = WhileSubscribed(5000),
@@ -52,16 +57,25 @@ class RecordingsViewModel @Inject constructor(
             pendingActions.collect { action ->
                 when (action) {
                     RecordsAction.DeleteAllRecords -> {
-
                     }
 
-                    is RecordsAction.DeleteRecord -> {
-                        deleteRecordFileInteractor.invoke(action.record.file)
+                    is RecordsAction.RecordDeleteSwipe -> {
+                        stoopAllPlaying()
+
                         records.update { records ->
                             records.toMutableList().apply {
                                 remove(action.record)
                             }
                         }
+
+                        uiMessageManager.emitMessage(
+                            UiMessage(
+                                RecordsUiMessages.RecordDeletedSnack(
+                                    action.record
+                                )
+                            )
+                        )
+
                     }
 
                     is RecordsAction.RecordCLick -> {
@@ -89,6 +103,12 @@ class RecordingsViewModel @Inject constructor(
                             }
                         }
                     }
+                    is RecordsAction.RestoreRecord -> {
+                        loadRecords()
+                    }
+                    is RecordsAction.DeleteRecord -> {
+                        deleteRecordFileInteractor.invoke(action.record.file)
+                    }
                 }
             }
         }
@@ -115,6 +135,12 @@ class RecordingsViewModel @Inject constructor(
     fun submitAction(action: RecordsAction) {
         viewModelScope.launch {
             pendingActions.emit(action)
+        }
+    }
+
+    fun clearMessage(id: Long) {
+        viewModelScope.launch {
+            uiMessageManager.clearMessage(id)
         }
     }
 }

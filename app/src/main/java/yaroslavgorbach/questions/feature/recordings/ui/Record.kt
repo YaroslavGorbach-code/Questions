@@ -38,7 +38,7 @@ fun Record(
 ) {
     val dismissState = rememberDismissState(confirmStateChange = {
         if (it == DismissValue.DismissedToEnd || it == DismissValue.DismissedToStart) {
-            actioner(RecordsAction.DeleteRecord(recordUi))
+            actioner(RecordsAction.RecordDeleteSwipe(recordUi))
         }
         true
     })
@@ -111,7 +111,7 @@ fun Record(
                     modifier = Modifier
                         .fillMaxWidth()
                         .height(1.dp)
-                        .background(MaterialTheme.colors.onSurface)
+                        .background(MaterialTheme.colors.onPrimary)
                 )
 
                 Row(
@@ -148,7 +148,8 @@ fun Record(
                     )
                 }
 
-                if (recordUi.recordState == RecordUi.RecordState.Playing || recordUi.recordState == RecordUi.RecordState.Pause) {
+                if (recordUi.recordState == RecordUi.RecordState.Playing
+                    || recordUi.recordState == RecordUi.RecordState.Pause) {
                     Slider(
                         modifier = Modifier
                             .fillMaxWidth()
@@ -165,7 +166,7 @@ fun Record(
                     modifier = Modifier
                         .fillMaxWidth()
                         .height(1.dp)
-                        .background(MaterialTheme.colors.onSurface)
+                        .background(MaterialTheme.colors.onPrimary)
                 )
             }
         }

@@ -223,7 +223,7 @@ private fun Question(question: Question?, actioner: (QuestionsAction) -> Unit) {
         modifier = Modifier
             .padding(start = 16.dp, end = 16.dp, top = 32.dp)
             .background(
-                color = MaterialTheme.colors.onSurface,
+                color = MaterialTheme.colors.onPrimary,
                 shape = RoundedCornerShape(15.dp)
             )
             .fillMaxSize()
@@ -285,7 +285,7 @@ private fun NewQuestionButton(
                     actioner(QuestionsAction.ChangeQuestion)
                 }
                 .background(
-                    color = MaterialTheme.colors.onSurface,
+                    color = MaterialTheme.colors.onPrimary,
                     shape = RoundedCornerShape(30.dp)
                 )
         ) {
@@ -364,7 +364,7 @@ private fun Menu(
                         .width(140.dp)
                         .padding(end = 8.dp)
                         .background(
-                            color = MaterialTheme.colors.onSurface,
+                            color = MaterialTheme.colors.onPrimary,
                             shape = RoundedCornerShape(4.dp)
                         ),
                 ) {
@@ -380,7 +380,7 @@ private fun Menu(
                     modifier = Modifier
                         .size(44.dp)
                         .background(
-                            color = MaterialTheme.colors.onSurface,
+                            color = MaterialTheme.colors.onPrimary,
                             shape = RoundedCornerShape(100.dp)
                         )
                 ) {
@@ -407,7 +407,7 @@ private fun Menu(
                         .width(140.dp)
                         .padding(end = 8.dp)
                         .background(
-                            color = MaterialTheme.colors.onSurface,
+                            color = MaterialTheme.colors.onPrimary,
                             shape = RoundedCornerShape(4.dp)
                         ),
                 ) {
@@ -423,7 +423,7 @@ private fun Menu(
                     modifier = Modifier
                         .size(44.dp)
                         .background(
-                            color = MaterialTheme.colors.onSurface,
+                            color = MaterialTheme.colors.onPrimary,
                             shape = RoundedCornerShape(100.dp)
                         )
                 ) {
@@ -451,7 +451,7 @@ private fun Menu(
                     }
                 }
                 .background(
-                    color = MaterialTheme.colors.onSurface,
+                    color = MaterialTheme.colors.onPrimary,
                     shape = RoundedCornerShape(100.dp)
                 )
         ) {

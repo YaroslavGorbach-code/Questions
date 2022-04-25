@@ -10,4 +10,6 @@
     <string name="audio_permission_denied_message">Permission is required for the voice recorder to work</string>
     <string name="record_saved">Record saved successfully</string>
     <string name="cancel">Cancel</string>
+    <string name="record_deleted">Record deleted</string>
+    <string name="restore">Restore</string>
 </resources>
