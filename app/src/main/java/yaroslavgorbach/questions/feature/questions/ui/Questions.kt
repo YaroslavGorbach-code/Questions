@@ -7,6 +7,9 @@ import android.provider.Settings
 import android.widget.Toast
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
@@ -192,7 +195,10 @@ internal fun Questions(
                     Question(state.question, actioner)
                 }
 
-                if (state.isMenuExpended) {
+                androidx.compose.animation.AnimatedVisibility(
+                    visible = state.isMenuExpended, enter = fadeIn(),
+                    exit = fadeOut()
+                ) {
                     Box(
                         modifier = Modifier
                             .background(Color.Black.copy(alpha = 0.5f))
@@ -300,11 +306,14 @@ private fun NewQuestionButton(
         }
 
         Spacer(modifier = Modifier.size(100.dp))
-
-        if (state.isMenuExpended) {
+        AnimatedVisibility(
+            visible = state.isMenuExpended,
+            enter = fadeIn(),
+            exit = fadeOut()
+        ) {
             Box(
                 modifier = Modifier
-                    .background(if (state.isMenuExpended) Color.Black.copy(alpha = 0.5f) else Color.Transparent)
+                    .background(Color.Black.copy(alpha = 0.5f))
                     .fillMaxSize()
                     .clickable(
                         interactionSource = MutableInteractionSource(),
@@ -322,7 +331,10 @@ private fun NewQuestionButton(
                     navigateToRecords
                 )
             }
-        } else {
+        }
+
+        if (state.isMenuExpended.not()) {
+
             Menu(
                 Modifier
                     .align(BottomEnd)
