@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Questions</string>
+    <string name="app_name">Self talk</string>
     <string name="questions">Questions</string>
     <string name="instruction">Answer questions to practice communication skills</string>
     <string name="start_recording">Start recording</string>

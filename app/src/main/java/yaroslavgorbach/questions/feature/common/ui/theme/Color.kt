@@ -2,9 +2,9 @@ package yaroslavgorbach.questions.feature.common.ui.theme
 
 import androidx.compose.ui.graphics.Color
 
-val Red700 = Color(0xFFC5112C)
-val Red400 = Color(0xFFFD164C)
-val Red200 = Color(0xFFFF4081)
+val Blue700 = Color(0xFF6E58F3)
+val Blue400 = Color(0xFF9181F2)
+val Blue200 = Color(0xFFA396F1)
 val Pink200 = Color(0xFFE040FB)
 
 val LightGray = Color(0xFFF2F2F2)
