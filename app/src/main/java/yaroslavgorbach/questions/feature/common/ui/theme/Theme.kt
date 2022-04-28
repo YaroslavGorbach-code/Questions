@@ -8,15 +8,15 @@ import androidx.compose.runtime.Composable
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 
 private val DarkColorPalette = darkColors(
-    primary = Red200,
-    primaryVariant = Red700,
+    primary = Blue200,
+    primaryVariant = Blue700,
     secondary = Pink200,
     onPrimary = LightDark
 )
 
 private val LightColorPalette = lightColors(
-    primary = Red400,
-    primaryVariant = Red700,
+    primary = Blue400,
+    primaryVariant = Blue700,
     secondary = Pink200,
     onPrimary = LightGray
     /* Other default colors to override
